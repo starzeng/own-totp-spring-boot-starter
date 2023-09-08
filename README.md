@@ -41,7 +41,7 @@ iPhone 和 iPad下载地址：https://apps.apple.com/app/google-authenticator/id
 **例子：**
 
 ```java
-		/**
+    /**
      * 测试用, 实际情况存储在数据库
      */
     private String secretKeyCache = "";
