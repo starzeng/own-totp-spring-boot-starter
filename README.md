@@ -1,4 +1,3 @@
-# own-totp-spring-boot-starter
 # TOTP使用
 
 ## 1.TOTP是什么
@@ -15,3 +14,5 @@ Chrome下载地址：https://github.com/Authenticator-Extension/Authenticator
 Android下载地址：https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2
 
 iPhone 和 iPad下载地址：https://apps.apple.com/app/google-authenticator/id388497605
+
+# own-totp-spring-boot-starter
