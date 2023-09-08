@@ -15,4 +15,78 @@ Android下载地址：https://play.google.com/store/apps/details?id=com.google.a
 
 iPhone 和 iPad下载地址：https://apps.apple.com/app/google-authenticator/id388497605
 
-# own-totp-spring-boot-starter
+# 3.totp-spring-boot-starter使用
+
+**添加依赖**
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>com.starryzeng.tools</groupId>
+    <artifactId>totp-spring-boot-starter</artifactId>
+    <version>0.0.1</version>
+</dependency>
+
+<dependency>
+    <groupId>com.google.zxing</groupId>
+    <artifactId>core</artifactId>
+    <version>3.5.2</version>
+</dependency>
+```
+
+**例子：**
+
+```java
+		/**
+     * 测试用, 实际情况存储在数据库
+     */
+    private String secretKeyCache = "";
+    
+    /**
+     * 生成二维码，APP直接扫描绑定，两种方式任选一种
+     *
+     * @param account  名称
+     * @param issuer   发行人
+     * @param response {@link HttpServletResponse}
+     */
+    @GetMapping("/getQrCode")
+    public void getQrcode(String account, String issuer, HttpServletResponse response) throws IOException {
+        // 获取32位密钥
+        String secretKey = GoogleAuthenticator.getSecretKey();
+        
+        // 缓存密钥,用于验证,正常存储用户数据表
+        secretKeyCache = secretKey;
+        
+        // 生成二维码内容
+        String qrCodeText = GoogleAuthenticator.getQrCodeText(secretKey, account, issuer);
+        
+        // 生成二维码输出
+        QrCodeUtil.generate(qrCodeText, 200, 200, ImgUtil.IMAGE_TYPE_PNG, response.getOutputStream());
+    }
+    
+    /**
+     * 验证 code 是否正确
+     */
+    @GetMapping("/checkCode")
+    public String checkCode(String code) {
+        String newCode = GoogleAuthenticator.getCode(secretKeyCache);
+        System.out.println(code + "----" + newCode);
+        if (GoogleAuthenticator.verifyCode(secretKeyCache, code)) {
+            return "success";
+        }
+        return "fail";
+    }
+```
+
+
+
+
+
+
+
+
+
